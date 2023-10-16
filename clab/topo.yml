@@ -1,0 +1,23 @@
+name: ansible
+
+mgmt:
+  network: ansible_demo
+  ipv4-subnet: 192.168.5.0/24
+
+topology:
+  nodes:
+    sros1:
+      kind: vr-sros
+      mgmt-ipv4: 192.168.5.10
+      image: vr-sros:23.7.R2
+      type: sr-1
+      license: /home/drelliot/license/license-sros23.txt
+    sros2:
+      kind: vr-sros
+      mgmt-ipv4: 192.168.5.11
+      image: vr-sros:23.7.R2
+      type: sr-1
+      license: /home/drelliot/license/license-sros23.txt
+
+  links:
+    - endpoints: [ "sros1:eth1", "sros2:eth1"]
