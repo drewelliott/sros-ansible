@@ -1,0 +1,22 @@
+---
+- name: Obtain the currently configured hostname over netconf
+  connection: netconf
+  netconf_get:
+    source: running
+    filter: <configure xmlns="urn:nokia.com:sros:ns:yang:sr:conf"><system><name/></system></configure>
+  register: running_config
+
+- name: Extract the name variable from the XML response
+  xml:
+    xpath: /nc:data/nokia:configure/nokia:system/nokia:name
+    xmlstring: "{{ running_config.stdout }}"
+    content: text
+    namespaces:
+      nc: "urn:ietf:params:xml:ns:netconf:base:1.0"
+      nokia: "urn:nokia.com:sros:ns:yang:sr:conf"
+  delegate_to: localhost
+  register: configured_router_name
+
+- name: Output the hostname currently configured in the running config datastore
+  debug:
+    msg: "The currently configured hostname in the running config datastore is {{ configured_router_name.matches[0]['{urn:nokia.com:sros:ns:yang:sr:conf}name'] }}"

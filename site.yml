@@ -1,0 +1,5 @@
+- hosts: sros_routers
+  gather_facts: false
+  roles:
+    - initial_router_setup
+  tags: [ 'never', 'setup' ]
