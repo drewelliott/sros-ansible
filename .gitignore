@@ -1,3 +1,4 @@
 clab/clab*
 venv*
 sros*
+!sros-ansible*
